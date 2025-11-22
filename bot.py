@@ -41,8 +41,15 @@ async def handle(request):
     return web.Response(text="ok")
 
 
+# Root path uchun
+async def root(request):
+    return web.Response(text="Bot ishlayapti!")
+
+
+# Bitta app yaratamiz va barcha routelarni qo‘shamiz
 app = web.Application()
 app.router.add_post(f"/{API_TOKEN}", handle)
+app.router.add_get("/", root)
 
 
 if __name__ == "__main__":
