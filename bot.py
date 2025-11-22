@@ -19,7 +19,9 @@ wikipedia.set_lang("uz")
 @dp.message(Command(commands=["start", "help"]))
 async def send_welcome(message: Message):
     await message.reply(
-        "Qidiruv botimizga 'Xush kelibsiz' \nHohlagan mavzuyingizdagi malumotni yozing. Maslahat (1 yoki 2 ta so'zdan iborat bo'lsa yaxshi malumot chiqarib beradi). Raxmat!"
+        "Qidiruv botimizga 'Xush kelibsiz'\n"
+        "Hohlagan mavzuyingizdagi malumotni yozing. "
+        "Maslahat (1 yoki 2 ta so'zdan iborat bo'lsa yaxshi malumot chiqarib beradi). Raxmat!"
     )
 
 
@@ -41,6 +43,7 @@ async def handle(request):
 
 app = web.Application()
 app.router.add_post(f"/{API_TOKEN}", handle)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
