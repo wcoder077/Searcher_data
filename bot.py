@@ -2,7 +2,6 @@ import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import Message
-from aiogram import F
 from aiohttp import web
 import wikipedia
 import os
@@ -21,11 +20,11 @@ async def send_welcome(message: Message):
     await message.reply(
         "Qidiruv botimizga 'Xush kelibsiz'\n"
         "Hohlagan mavzuyingizdagi malumotni yozing. "
-        "Maslahat (1 yoki 2 ta so'zdan iborat bo'lsa yaxshi malumot chiqarib beradi). Raxmat!"
+        "Maslahat: 1 yoki 2 ta so'z bo'lsa yaxshi natija beradi."
     )
 
 
-@dp.message(F.text)
+@dp.message()
 async def sendSearcher(message: Message):
     try:
         respond = wikipedia.summary(message.text)
@@ -51,5 +50,11 @@ app.router.add_get("/", root)
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    web.run_app(app, host="0.0.0.0", port=port)
+    PORT = int(os.environ.get("PORT", 5000))
+    # Webhookni Telegramga o‘rnatish
+    import asyncio
+
+    async def on_startup():
+        await bot.set_webhook(f"https://YOUR_RENDER_URL/{API_TOKEN}")
+
+    web.run_app(app, host="0.0.0.0", port=PORT, startup=on_startup())
