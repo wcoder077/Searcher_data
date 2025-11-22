@@ -5,6 +5,7 @@ from aiogram.types import Message
 from aiogram import F
 from aiohttp import web
 import wikipedia
+import os
 
 API_TOKEN = "7705190775:AAHs74S-ROBiFXRzPMxkZW2x3FFVrFy4lc4"
 
@@ -31,9 +32,6 @@ async def sendSearcher(message: Message):
         await message.answer("Bu mavzuga oid maqola topilmadi")
 
 
-# ------------------------
-# Webhook server uchun
-# ------------------------
 async def handle(request):
     data = await request.json()
     update = types.Update(**data)
