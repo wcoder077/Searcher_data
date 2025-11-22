@@ -3,8 +3,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import F
+from aiohttp import web
 import wikipedia
-
 
 API_TOKEN = "7705190775:AAHs74S-ROBiFXRzPMxkZW2x3FFVrFy4lc4"
 
@@ -18,7 +18,7 @@ wikipedia.set_lang("uz")
 @dp.message(Command(commands=["start", "help"]))
 async def send_welcome(message: Message):
     await message.reply(
-        "Qidiruv botimizga 'Xush kelibsiz' \nHohlagan mavzuyingizdagi malumotni yozing. maslahat(1 yoki 2 ta so'zdan iborat bo'lsa yaxshi malumot chiqarib beradi) Raxmat! "
+        "Qidiruv botimizga 'Xush kelibsiz' \nHohlagan mavzuyingizdagi malumotni yozing. Maslahat (1 yoki 2 ta so'zdan iborat bo'lsa yaxshi malumot chiqarib beradi). Raxmat!"
     )
 
 
@@ -31,7 +31,19 @@ async def sendSearcher(message: Message):
         await message.answer("Bu mavzuga oid maqola topilmadi")
 
 
-if __name__ == "__main__":
-    import asyncio
+# ------------------------
+# Webhook server uchun
+# ------------------------
+async def handle(request):
+    data = await request.json()
+    update = types.Update(**data)
+    await dp.update_queue.put(update)
+    return web.Response(text="ok")
 
-    asyncio.run(dp.start_polling(bot))
+
+app = web.Application()
+app.router.add_post(f"/{API_TOKEN}", handle)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    web.run_app(app, host="0.0.0.0", port=port)
