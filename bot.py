@@ -13,9 +13,7 @@ wikipedia.set_lang("uz")
 @dp.message(Command(commands=["start", "help"]))
 async def welcome(message: types.Message):
     await message.reply(
-        "Qidiruv botimizga 'Xush kelibsiz'\n"
-        "Hohlagan mavzuyingizdagi malumotni yozing. "
-        "Maslahat: 1 yoki 2 ta so'z bo'lsa yaxshi natija beradi."
+        "Xush kelibsiz😊\n\t\t Bu botda siz juda ko'p malumotni atiga,\n\t\t 1,2-ta so'z bilan topishingiz mumkin!"
     )
 
 
